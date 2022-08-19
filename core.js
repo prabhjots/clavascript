@@ -340,6 +340,18 @@ export function map(f, coll) {
   return ret;
 }
 
+export function concat(...colls) {
+  var ret = [];
+  for (const x of colls) {
+    ret.push(...iterable(x));
+  }
+  return ret;
+}
+
+export function mapcat(f, ...colls) {
+  return concat(...map(f, ...colls));
+}
+
 export function filter(pred, coll) {
   let ret = [];
   for (const x of iterable(coll)) {
@@ -488,4 +500,8 @@ export function list(...args) {
 
 export function array_QMARK_(x) {
   return x instanceof Array;
+}
+
+export function identity(x) {
+  return x;
 }

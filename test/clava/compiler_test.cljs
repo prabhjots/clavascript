@@ -679,6 +679,17 @@
     (is (eq () (jsv! '(map inc nil))))
     (is (eq () (jsv! '(map inc js/undefined))))))
 
+(deftest mapcat-test
+  (is (eq [] (jsv! '(mapcat identity nil))))
+  (is (eq [0 1 2 3 4 5 6 7 8 9] (jsv! '(mapcat identity [[0 1 2 3] [4 5 6] [7 8 9]]))))
+  (is (eq ["a" "b" "c" "d"] (jsv! '(mapcat identity {"a" "b" "c" "d"})))))
+
+(deftest concat-test
+  (is (eq [] (jsv! '(concat nil))))
+  (is (eq [1] (jsv! '(concat nil [] [1]))))
+  (is (eq [0 1 2 3 4 5 6 7 8 9] (jsv! '(concat [0 1 2 3] [4 5 6] [7 8 9]))))
+  (is (eq [["a" "b"] ["c" "d"] 2] (jsv! '(concat {"a" "b" "c" "d"} [2])))))
+
 (deftest filter-test
   (is (eq [2 4 6 8] (jsv! '(filter even? [1 2 3 4 5 6 7 8 9]))))
   (is (every? (set (jsv! '(filter even? #{1 2 3 4 5 6 7 8 9})))
