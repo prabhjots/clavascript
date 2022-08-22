@@ -620,7 +620,7 @@ export function partition(n, ...args) {
 
 function partitionInternal(n, step, pad, coll, all) {
   let ret = [];
-  let array = [...iterable(coll)];
+  let array = (coll instanceof Array) ? coll : [...iterable(coll)];
   for (var i = 0; i < array.length; i = i + step) {
     let p = array.slice(i, i + n);
     if (p.length === n) {
@@ -628,7 +628,7 @@ function partitionInternal(n, step, pad, coll, all) {
     } else if (pad.length) {
       p.push(...pad.slice(0, n - p.length));
       ret.push(p);
-    } else if(all) {
+    } else if (all) {
       ret.push(p);
     }
   }
