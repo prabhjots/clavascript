@@ -620,7 +620,7 @@ export function partition(n, ...args) {
 
 function partitionInternal(n, step, pad, coll, all) {
   let ret = [];
-  let array = [...iterable(coll)];
+  let array = (coll instanceof Array) ? coll : [...iterable(coll)];
   for (var i = 0; i < array.length; i = i + step) {
     let p = array.slice(i, i + n);
     if (p.length === n) {
@@ -628,7 +628,7 @@ function partitionInternal(n, step, pad, coll, all) {
     } else if (pad.length) {
       p.push(...pad.slice(0, n - p.length));
       ret.push(p);
-    } else if(all) {
+    } else if (all) {
       ret.push(p);
     }
   }
@@ -648,4 +648,36 @@ export function merge(...objs) {
 
 export function system_time() {
   return performance.now();
+}
+
+export function take(n, coll) {
+  if (n <= 0) {
+    return [];
+  }
+  if (coll instanceof Array) {
+    return coll.slice(0, n);
+  }
+
+  let ret = [];
+  let i = 0;
+  for (let x of iterable(coll)) {
+    ret.push(x);
+    i++;
+    if (i === n) {
+      break;
+    }
+  }
+  return ret;
+}
+
+export function take_while(pred, coll) {
+  let ret = [];
+  for (let item of iterable(coll)) {
+    if (pred(item)) {
+      ret.push(item);
+    } else {
+      break;
+    }
+  }
+  return ret;
 }
