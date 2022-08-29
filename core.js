@@ -428,7 +428,7 @@ class LazyIterable {
     this.gen = gen;
   }
   [IIterable] = true;
-  [IIterable__iterator]() {
+  [Symbol.iterator]() {
     return this.gen();
   }
 }
@@ -587,7 +587,9 @@ export function vector_QMARK_(x) {
   return typeConst(x) === ARRAY_TYPE;
 }
 
-export const mapv = map;
+export function mapv(...args){
+  return [...map(...args)]
+}
 
 export const vec = (x) => Array.from(iterable(x));
 
@@ -785,7 +787,7 @@ export function repeat(...args) {
           }
         : function* () {
             let [n, x] = args;
-            for (var i = 0; i < n; i++) yield x;
+            for (let i = 0; i < n; i++) yield x;
           },
   };
 }
